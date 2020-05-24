@@ -18,7 +18,7 @@ p {
 
 div {
     font-size: 0;
-    width: 533px;
+    width: 28%;
     margin: 0 auto;
     text-align: center;
     border: 1px solid black; 
@@ -30,4 +30,8 @@ input {
     box-shadow: 2px 2px 10px 2px;
     display: block;
     margin: 20px auto;
+}
+
+.cards {
+    width: 25%;
 }
