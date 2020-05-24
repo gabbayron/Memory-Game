@@ -1,31 +1,37 @@
 var divCards = document.getElementById('divCards');
 var checkCounter = 0;
-var img1;
-var img2;
-var originalSrc1;
-var originalSrc2;
-var originalImgId1;
-var originalImgId2;
+var redCardSrc = "img/red.png"
+var cardsArr = document.getElementsByClassName('cards')
+var pickedImg1;
+var pickedImg2;
+var check1Src;
+var check2Src;
+var imgArr = []
+var resetBtn = document.getElementById('resetBtn')
 
-divCards.addEventListener('click', replaceImg);
-var randomNum;
+// Creating Back Cards Array
+
+for (var i = 0; i < 12; i++) {
+    imgArr.push(generateImg(generateNum()))
+    // checkCounter = 0
+}
 
 function replaceImg(e) {
     if (checkCounter <= 1) {
         img = e.target
-        if (checkCounter === 0) {
-            originalSrc1 = img.src
-            originalImgId1 = img
-        }
+        checkCounter++
         if (checkCounter === 1) {
-            originalSrc2 = img.src
-            originalImgId2 = img
+            pickedImg1 = img
+            check1Src = imgArr[img.id - 1]
         }
-        img.src = generateImg(generateNum())
-        checkValue(val)
+        if (checkCounter === 2) {
+            pickedImg2 = img
+            check2Src = imgArr[img.id - 1]
+        }
+        img.src = imgArr[img.id - 1]
     }
     if (checkCounter === 2) {
-        setTimeout(checkAnswer, 300)
+        setTimeout(checkAnswer, 200)
         checkCounter = 0
     }
 }
@@ -35,7 +41,7 @@ function generateNum() {
 }
 
 function generateImg(num) {
-    checkCounter++
+
     val = num
     if (num === 1) {
         return "img/a.png"
@@ -51,28 +57,13 @@ function generateImg(num) {
     }
 }
 
-
-function checkValue(value) {
-    if (checkCounter === 1) {
-        img1 = value
-    }
-    if (checkCounter === 2) {
-        img2 = value
-    }
-}
-
-
 function checkAnswer() {
-    if (img1 === img2) {
-        alert('you are correct')
+    if (check1Src === check2Src) {
+        alert('You Are Correct')
         removeCards()
-        img1 = 1 // just so they wont be the same 
-        img2 = 0
     }
     else {
-        alert('try again son')
-        img1 = 1
-        img2 = 0
+        alert('Try Again Please')
         returnCards()
     }
 }
@@ -80,14 +71,27 @@ function checkAnswer() {
 // If the answer is wrong and need to show the previous cards
 
 function returnCards() {
-    originalImgId1.src = originalSrc1;
-    originalImgId2.src = originalSrc2;
+    pickedImg1.src = redCardSrc;
+    pickedImg2.src = redCardSrc;
 }
 
 // in case the answer is correct and cards
 // needs to be removed
 
 function removeCards() {
-    originalImgId1.style.display = 'none'
-    originalImgId2.style.display = 'none'
+    pickedImg1.style.visibility = 'hidden'
+    pickedImg2.style.visibility = 'hidden'
 }
+
+function resetGame() {
+    imgArr = []
+    for (var i = 0; i < 12; i++) {
+        cardsArr[i].src = redCardSrc
+        cardsArr[i].style.visibility = 'visible'
+        imgArr.push(generateImg(generateNum()))
+        checkCounter = 0
+    }
+}
+
+divCards.addEventListener('click', replaceImg);
+resetBtn.addEventListener('click', resetGame)
